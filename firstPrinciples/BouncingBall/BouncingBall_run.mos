@@ -1,12 +1,9 @@
 //omc --showErrorMessages runModel.mos
 //See https://www.openmodelica.org/doc/OpenModelicaUsersGuide/latest/scripting_api.html
 
-
-
 //checkSettings(); //shows the build settings
 
 loadFile(fileName="./BouncingBall.mo"); //loads model from a file
-cd("./temp/");
 
 //instantiateModel(BouncingBall); //instantiates the class and returns the flattened code
 
