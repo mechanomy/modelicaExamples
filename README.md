@@ -1,5 +1,5 @@
 # modelexe
-Repository of Example Modelica models, pull requests welcome.
+A repository of Modelica models, pull requests welcome.
 
 See also:
 * [Modelica By Example]( http://github.com/mtiller/ModelicaBook )

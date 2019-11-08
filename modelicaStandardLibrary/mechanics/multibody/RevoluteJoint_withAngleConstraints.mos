@@ -1,0 +1,17 @@
+//omc --showErrorMessages runModel.mos
+//See https://www.openmodelica.org/doc/OpenModelicaUsersGuide/latest/scripting_api.html
+
+loadFile(fileName="./RevoluteJoint_withAngleConstraints.mo"); //loads model from a file
+
+checkModel(RevoluteJoint_withAngleConstraints);
+
+cd("../../../temp/");
+
+//simulate options:
+//  see https://www.openmodelica.org/doc/OpenModelicaUsersGuide/latest/simulationflags.html
+//  -abortSlowSimulation : stop simulation if it chatters
+//  -alarm=nSeconds : stop simulation after n seconds. If the alarm stops the simulation results are still created but they are not through StopTime. StdOut log shows "Alarm clock"
+//  -lv=LOG_SIMULATION,LOG_STATS : additional logs to turn on
+//  -steadyState : abort if simulation has reached steady state. See message "steady state reached at time = ___".
+simulate(RevoluteJoint_withAngleConstraints, outputFormat="csv", simflags="-abortSlowSimulation -alarm=5 -lv=LOG_SIMULATION,LOG_STATS -steadyState");
+
