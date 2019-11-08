@@ -1,0 +1,29 @@
+//omc --showErrorMessages runModel.mos
+//See https://www.openmodelica.org/doc/OpenModelicaUsersGuide/latest/scripting_api.html
+
+//checkSettings(); //shows the build settings
+
+loadFile(fileName="../firstPrinciples/BouncingBall/BouncingBall.mo"); //loads model from a file
+cd("../temp/");
+
+//instantiateModel(BouncingBall); //instantiates the class and returns the flattened code
+
+//list(BouncingBall);//lists the contents of the given class, or all loaded classes if empty
+//listVariables();//lists all active variables
+
+checkModel(BouncingBall);
+
+//simulate options:
+//  see https://www.openmodelica.org/doc/OpenModelicaUsersGuide/latest/simulationflags.html
+//  -abortSlowSimulation : stop simulation if it chatters
+//  -alarm=nSeconds : stop simulation after n seconds. If the alarm stops the simulation results are still created but they are not through StopTime. StdOut log shows "Alarm clock"
+//  -lv=LOG_SIMULATION,LOG_STATS : additional logs to turn on
+//  -outputPath : location for output files
+//  -r=resultFileName : default is ModelName_res.format
+//  -steadyState : abort if simulation has reached steady state. See message "steady state reached at time = ___".
+simulate(BouncingBall, outputFormat="csv", simflags="-abortSlowSimulation -alarm=5 -lv=LOG_SIMULATION,LOG_STATS -steadyState");
+
+//plotAll();//eventually draws a qt window, too many vars to be useful..
+
+
+
