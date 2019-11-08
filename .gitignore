@@ -63,5 +63,5 @@ typings/
 
 
 # temp
-temp/
+temp/*
 
