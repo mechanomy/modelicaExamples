@@ -1,11 +1,40 @@
 model MMT_DamperLimited "Linear 1D translational damper"
-  extends Translational.Interfaces.PartialCompliantWithRelativeStates;
-  parameter SI.TranslationalDampingConstant d(final min=0, start=0) "Damping constant";
-  extends
-    Modelica.Thermal.HeatTransfer.Interfaces.PartialElementaryConditionalHeatPortWithoutT;
+  extends Modelica.Mechanics.Translational.Interfaces.PartialCompliantWithRelativeStates;
+  extends Modelica.Thermal.HeatTransfer.Interfaces.PartialElementaryConditionalHeatPortWithoutT;
+  
+  parameter Boolean dampAccordingToPosition = true "true = apply damping according to position limits" annotation(Evaluate=true, HideResult=true, choices(checkBox=true));
+  parameter Modelica.SIunits.Position s_rel_damping_start(final min=0, start=0) "Damping is applied beginning at this position";
+  parameter Modelica.SIunits.Position s_rel_damping_stop( final min=0, start=0) "Damping is removed at this position";
+  
+  parameter Modelica.SIunits.Velocity v_rel_damping_start(final min=0, start=0) "Damping is applied beginning at this velocity";
+  parameter Modelica.SIunits.Velocity v_rel_damping_stop( final min=0, start=0) "Damping is removed at this velocity";
+  
+  parameter Modelica.SIunits.TranslationalDampingConstant d(final min=0, start=0) "Damping applied between start and stop";
+  
 equation
   //f = d*v_rel;
-  f = if ( abs(s_rel) < 1 ) then 0 else d*v_rel;
+  //f = if ( abs(s_rel) <= 1 ) then 0 else d*v_rel;
+  if (dampAccordingToPosition) then 
+    assert( s_rel_damping_start < s_rel_damping_stop, "MMT_DamperLimited given s_rel_damping_start !< s_rel_damping_stop, ignoring stop position");
+    if (s_rel_damping_stop < s_rel_damping_start ) then
+      s_rel_damping_stop = s_rel_damping_start * 10;
+    end if;
+  
+    f = if ( s_rel_damping_start < abs(s_rel) and abs(s_rel) < s_rel_damping_stop ) then d*v_rel else 0;
+    
+  else //damp according to velocity
+    assert( v_rel_damping_start < v_rel_damping_stop, "MMT_DamperLimited given v_rel_damping_start !< v_rel_damping_stop, ignoring stop velocity");
+    if (v_rel_damping_stop < v_rel_damping_start ) then
+      v_rel_damping_stop = v_rel_damping_start *10;
+    end if;
+  
+    f = if ( v_rel_damping_start < abs(v_rel) and abs(v_rel) < v_rel_damping_stop ) then d*v_rel else 0;
+  
+  end if;
+  
+  
+  
+  
   lossPower = f*v_rel;
 
 
