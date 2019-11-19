@@ -14,6 +14,7 @@ model MMR_SpringDamper_Limited "Linear 1D rotational spring and damper in parall
 protected
   Modelica.SIunits.Torque tau_c "Spring torque";
   Modelica.SIunits.Torque tau_d "Damping torque";
+  Modelica.SIunits.Angle phi_wrap = 0 "Wrapped angle";
   
 equation
   //tau_c = c*(phi_rel - phi_rel0);
@@ -25,7 +26,8 @@ equation
   
     
     
-    if (phi_rel_start < phi_rel and phi_rel < phi_rel_stop) then 
+    //if (phi_rel_start < phi_rel and phi_rel < phi_rel_stop) then 
+    if (phi_rel_start < Modelica.Math.wrapAngle(phi_rel) and Modelica.Math.wrapAngle(phi_rel) < phi_rel_stop) then 
       tau_c = c*(phi_rel - phi_rel0);
       tau_d = d*w_rel;
     else 
