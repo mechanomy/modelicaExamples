@@ -4,11 +4,11 @@ model MMT_SpringNonlinear_exe
     Modelica.Mechanics.MultiBody.Parts.FixedTranslation translation(r = {1, 0, 0}) annotation(
     Placement(visible = true, transformation(origin = {-50, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
     
-    Modelica.Mechanics.MultiBody.Joints.Revolute revolute(phi(fixed = true, start = 4.71239), stateSelect = StateSelect.prefer) annotation(
+    Modelica.Mechanics.MultiBody.Joints.Revolute revolute(phi(fixed = true, start = 4.71239), stateSelect = StateSelect.prefer, useAxisFlange = true) annotation(
     Placement(visible = true, transformation(origin = {-10, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
     Modelica.Mechanics.MultiBody.Joints.Prismatic prismatic(useAxisFlange = true) annotation(
     Placement(visible = true, transformation(origin = {70, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-    MMT_SpringNonlinear mMT_SpringNonlinear(c = 1e5, c_expo = 1)  annotation(
+    MMT_SpringNonlinear mMT_SpringNonlinear(c = 1e9, c_expo = 1)  annotation(
     Placement(visible = true, transformation(origin = {68, 38}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
     Modelica.Mechanics.MultiBody.Parts.BodyBox body_noDamper(color = {100, 200, 255}, r = {1, 0, 0}) annotation(
     Placement(visible = true, transformation(origin = {110, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -38,6 +38,8 @@ model MMT_SpringNonlinear_exe
     Placement(visible = true, transformation(origin = {70, -116}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
     Modelica.Mechanics.MultiBody.Parts.BodyBox body_dampedVelocity(color = {100, 200, 255}, r = {1, 0, 0}) annotation(
     Placement(visible = true, transformation(origin = {110, -136}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    MMR_SpringDamper_Limited mMR_SpringDamper_Limited(c = 10, d = 10, phi_rel_start = 3.49066, phi_rel_stop = 5.23599)  annotation(
+    Placement(visible = true, transformation(origin = {-10, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
   connect(world.frame_b, translation.frame_a) annotation(
     Line(points = {{-79, 10}, {-60, 10}}));
@@ -83,6 +85,10 @@ equation
     Line(points = {{0, -136}, {60, -136}}, color = {95, 95, 95}));
   connect(fixedTranslation.frame_a, world.frame_b) annotation(
     Line(points = {{-60, -136}, {-80, -136}, {-80, 10}, {-80, 10}}, color = {95, 95, 95}));
+  connect(mMR_SpringDamper_Limited.flange_b, revolute.axis) annotation(
+    Line(points = {{0, 40}, {4, 40}, {4, 20}, {-10, 20}, {-10, 20}}));
+  connect(revolute.support, mMR_SpringDamper_Limited.flange_a) annotation(
+    Line(points = {{-16, 20}, {-26, 20}, {-26, 40}, {-20, 40}, {-20, 40}}));
   annotation(
     Diagram(coordinateSystem(extent = {{-100, -100}, {200, 100}})),
     uses(Modelica(version = "3.2.2")));
