@@ -3,8 +3,8 @@ model MMR_SpringDamper_Limited "Linear 1D rotational spring and damper in parall
   extends Modelica.Thermal.HeatTransfer.Interfaces.PartialElementaryConditionalHeatPortWithoutT;
   
   parameter Modelica.SIunits.Angle phi_rel0=0 "Unstretched spring angle";
-  parameter Modelica.SIunits.Angle phi_rel_start=0 "Angle to start applying the spring/damper";
-  parameter Modelica.SIunits.Angle phi_rel_stop =0 "Angle to stop applying the spring/damper";
+  parameter Modelica.SIunits.Angle phi_rel_start=0 "Angle to start applying the spring/damper (applied modulus 2pi)";
+  parameter Modelica.SIunits.Angle phi_rel_stop =0 "Angle to stop applying the spring/damper (applied modulus 2pi)";
   
   parameter Modelica.SIunits.RotationalSpringConstant c(final min=0, start=1.0e5) "Spring constant";
   parameter Modelica.SIunits.RotationalDampingConstant d(final min=0, start=0) "Damping constant";
@@ -23,8 +23,6 @@ equation
     if (phi_rel_stop < phi_rel_start ) then
       phi_rel_stop = phi_rel_start * 10;
     end if;
-  
-    
     
     //if (phi_rel_start < phi_rel and phi_rel < phi_rel_stop) then 
     if (phi_rel_start < Modelica.Math.wrapAngle(phi_rel) and Modelica.Math.wrapAngle(phi_rel) < phi_rel_stop) then 
@@ -37,8 +35,6 @@ equation
   
   tau = tau_c + tau_d;
   lossPower = tau_d*w_rel;
-  
-  
   
   annotation (
     Documentation(info="<html>
