@@ -7,7 +7,7 @@ model MMR_SpringDamper_Limited_exeGate
     Placement(visible = true, transformation(origin = { 10, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
     Modelica.Mechanics.MultiBody.Joints.Revolute revoluteRight(n = {0, 1, 0}, phi(fixed = false, start = 0), useAxisFlange = true) annotation(
     Placement(visible = true, transformation(origin = {72, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-    MMR_SpringDamper_Limited limitRight(cAB = 1e6, cOut = 1e1, dAB = 0, dOut = 1e1, phiA = 2.79253, phiB = 6.28319) annotation(
+    MMR_SpringDamper_Limited limitRight(cAB = 1e6, cOut = 1e1, dAB = 0, dOut = 5e0, phiA = 2.79253, phiB = 6.28319) annotation(
     Placement(visible = true, transformation(origin = {72, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
     Modelica.Mechanics.MultiBody.Parts.BodyBox doorRight(color = {120, 90, 24},height = 0.05, r = {0.5, 0, 0}, width = 1)  annotation(
     Placement(visible = true, transformation(origin = {-10, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -17,7 +17,7 @@ model MMR_SpringDamper_Limited_exeGate
     Placement(visible = true, transformation(origin = {0, 50}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
     Modelica.Blocks.Sources.Step step(height = 1111, offset = -1111, startTime = 0.2) annotation(
     Placement(visible = true, transformation(origin = {10, 84}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-    MMR_SpringDamper_Limited limitLeft(cAB = 1e6, cOut = 1e1, dAB = 0, dOut = 1e1, phiA = 2.79253, phiB = 6.28319) annotation(
+    MMR_SpringDamper_Limited limitLeft(cAB = 1e6, cOut = 1e1, dAB = 0, dOut = 5e0, phiA = 2.79253, phiB = 6.28319) annotation(
     Placement(visible = true, transformation(origin = {-50, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
     Modelica.Mechanics.MultiBody.Forces.WorldForce forceRight(diameter = 0.1) annotation(
     Placement(visible = true, transformation(origin = {20, 50}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
@@ -49,7 +49,7 @@ equation
   annotation(
     Diagram(coordinateSystem(extent = {{-100, -100}, {200, 100}})),
     uses(Modelica(version = "3.2.2")),
-    experiment(StartTime = 0, StopTime = 1, Tolerance = 1e-6, Interval = 0.002),
+    experiment(StartTime = 0, StopTime = 30, Tolerance = 1e-6, Interval = 0.002),
     __OpenModelica_commandLineOptions = "--matchingAlgorithm=PFPlusExt --indexReductionMethod=dynamicStateSelection -d=initialization,NLSanalyticJacobian,newInst -d=initialization ",
     __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"));
 end MMR_SpringDamper_Limited_exeGate;

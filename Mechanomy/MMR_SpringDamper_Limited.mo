@@ -11,7 +11,7 @@ model MMR_SpringDamper_Limited "Linear 1D rotational spring and damper in parall
   parameter Modelica.SIunits.RotationalDampingConstant dOut(final min=0, start=0) "Damping constant applied outside AB";
   parameter Modelica.SIunits.Angle phi_rel0=0 "Unstretched spring angle";
   
-protected
+//protected
   Modelica.SIunits.Torque tauC "Torque due to the spring";
   Modelica.SIunits.Torque tauD "Torque due to the damper";
   Modelica.SIunits.Angle phiWrap "Wrapped angle";
@@ -19,18 +19,21 @@ protected
 equation
   phiWrap = Modelica.Math.wrapAngle( phi_rel );
   
-  assert( abs(phiA - Modelica.Math.wrapAngle(phiA)) < 1e-3, "phiA should lie in [-pi, pi]", level=AssertionLevel.warning);
-  assert( abs(phiB - Modelica.Math.wrapAngle(phiB)) < 1e-3, "phiB should lie in [-pi, pi]", level=AssertionLevel.warning);
+  //assert( abs(phiA - Modelica.Math.wrapAngle(phiA)) < 1e-3, "phiA should lie in [-pi, pi]", level=AssertionLevel.warning);
+  //assert( abs(phiB - Modelica.Math.wrapAngle(phiB)) < 1e-3, "phiB should lie in [-pi, pi]", level=AssertionLevel.warning);
   assert( 0 <= phi_rel0, "phi_rel_0, the unstretched spring angle, cannot be negative", level=AssertionLevel.warning);
   
   if (phiA <= phiWrap and phiWrap <= phiB) then //phiA < phiB
-    tauC = cAB * (phiWrap - phiA - phi_rel0);
+    //tauC = cAB * (phiWrap - phiA - phi_rel0);
+    tauC = cAB * (phi_rel - phiA - phi_rel0);
     tauD = dAB * w_rel;
   elseif (phiB <= phiWrap and phiWrap <= phiA) then //phiB < phiA
-    tauC = cAB * (phiWrap - phiB - phi_rel0);
+    //tauC = cAB * (phiWrap - phiB - phi_rel0);
+    tauC = cAB * (phi_rel - phiB - phi_rel0);
     tauD = dAB * w_rel;
   else //phi is not in AB
     tauC = cOut * (phiWrap - phi_rel0);
+    //tauC = cOut * (phi_rel - phi_rel0);
     tauD = dOut * w_rel;
   end if;
   
