@@ -1,4 +1,4 @@
-model MMM_BodyBox_Frames3_exe
+model MMM_BodyBox_FramesABC_exeSpringPlate
   inner Modelica.Mechanics.MultiBody.World world annotation(
     Placement(visible = true, transformation(origin = {-90, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation fixedTranslation1(r = {1, 0, 1})  annotation(
@@ -42,4 +42,4 @@ equation
   experiment(StartTime = 0, StopTime = 50, Tolerance = 1e-6, Interval = 0.01),
   __OpenModelica_commandLineOptions = "--matchingAlgorithm=PFPlusExt --indexReductionMethod=dynamicStateSelection -d=initialization,NLSanalyticJacobian,newInst -d=initialization ",
   __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"));
-end MMM_BodyBox_Frames3_exe;
+end MMM_BodyBox_FramesABC_exeSpringPlate;

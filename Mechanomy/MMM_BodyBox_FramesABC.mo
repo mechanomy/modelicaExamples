@@ -1,4 +1,4 @@
-model MMM_BodyBox_Frame3  "Rigid body with box shape. Mass and animation properties are computed from box data and density (12 potential states)"
+model MMM_BodyBox_FramesABC  "Rigid body with box shape. Mass and animation properties are computed from box data and density (12 potential states)"
 
   import Modelica.Math.Vectors.normalizeWithAssert;
   import Modelica.SIunits.Conversions.to_unit1;
@@ -13,7 +13,7 @@ model MMM_BodyBox_Frame3  "Rigid body with box shape. Mass and animation propert
   parameter Modelica.SIunits.Position r_shape[3]={0,0,0} "Vector from frame_a to box origin, resolved in frame_a" annotation(HideResult=false);
   final parameter Modelica.SIunits.Position r_CM[3]=r_shape + normalizeWithAssert(lengthDirection)*length/2 "Position vector from origin of frame_a to center of mass, resolved in frame_a" annotation(HideResult=false);
 
-  
+
   parameter Modelica.SIunits.Length length = Modelica.Math.Vectors.length((rAB+rAC)/2 - r_shape) "Length of box" annotation(HideResult=false);
   parameter Modelica.Mechanics.MultiBody.Types.Axis lengthDirection = to_unit1( (rAB+rAC)/2 - r_shape) "Vector in length direction of box, resolved in frame_a" annotation (Evaluate=true, HideResult=true);
   //parameter Modelica.Mechanics.MultiBody.Types.Axis widthDirection = {0,1,0} "Vector in width direction of box, resolved in frame_a" annotation (Evaluate=true, HideResult=true);
@@ -57,7 +57,7 @@ model MMM_BodyBox_Frame3  "Rigid body with box shape. Mass and animation propert
   final parameter Modelica.SIunits.Inertia I[3, 3] = Modelica.Mechanics.MultiBody.Frames.resolveDyade1(R, diagonal({
     mo*(width*width +   height*height) - mi*(innerWidth*innerWidth + innerHeight*innerHeight),
     mo*(length*length + height*height) - mi*(length*length + innerHeight*innerHeight),
-    mo*(length*length + width*width)   - mi*(length*length + innerWidth*innerWidth)} / 12 )) 
+    mo*(length*length + width*width)   - mi*(length*length + innerWidth*innerWidth)} / 12 ))
     "Inertia tensor of body box with respect to center of mass, parallel to frame_a" annotation( HideResult=true);
 protected
   Modelica.Mechanics.MultiBody.Parts.Body body(
@@ -122,7 +122,7 @@ equation
   connect(frameTranslationAB.frame_b, frame_b) annotation( Line(points = {{42, 20}, {112, 20}, {112, 20}, {112, 20}}));
   connect(body.frame_a, frame_a) annotation(
     Line(points = {{0, -60}, {-40, -60}, {-40, 0}, {-100, 0}, {-100, 0}}, color = {95, 95, 95}));
-  
+
   annotation (Documentation(info="<html>
 <p>
 <b>Rigid body</b> with positionable frames a,b,c.
@@ -148,9 +148,9 @@ Icon( coordinateSystem(initialScale = 0.1),
    Text(origin = {0, -24},extent = {{150, -80}, {-150, -50}}, textString = "rAC=%rAC")
  }),
     experiment(StartTime = 0, StopTime = 1, Tolerance = 1e-6, Interval = 0.002),
-    
+
   __OpenModelica_commandLineOptions = "--matchingAlgorithm=PFPlusExt --indexReductionMethod=dynamicStateSelection -d=initialization,NLSanalyticJacobian,newInst -d=initialization ",
   __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"));
 
 
-end MMM_BodyBox_Frame3;
+end MMM_BodyBox_FramesABC;
