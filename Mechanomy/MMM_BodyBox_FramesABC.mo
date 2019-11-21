@@ -1,12 +1,11 @@
 model MMM_BodyBox_Frame3  "Rigid body with box shape. Mass and animation properties are computed from box data and density (12 potential states)"
 
-  import Modelica.Mechanics.MultiBody.Types;
   import Modelica.Math.Vectors.normalizeWithAssert;
   import Modelica.SIunits.Conversions.to_unit1;
 
   Modelica.Mechanics.MultiBody.Interfaces.Frame_a frame_a    "Coordinate system fixed to the component with one cut-force and cut-torque" annotation (Placement(transformation(extent={{-116,-16},{-84,16}})));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_b    "Coordinate system fixed to the component with one cut-force and cut-torque" annotation (Placement(visible = true, transformation(extent = {{96, 4}, {128, 36}}, rotation = 0), iconTransformation(extent = {{84, 22}, {116, 54}}, rotation = 0)));
-  Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_c    "Coordinate system fixed to the component with one cut-force and cut-torque" annotation (Placement(visible = true, transformation(extent = {{100, -36}, {132, -4}}, rotation = 0), iconTransformation(extent = {{86, -56}, {118, -24}}, rotation = 0)));
+  Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_c    "Coordinate system fixed to the component with one cut-force and cut-torque" annotation (Placement(visible = true, transformation(extent = {{96, -36}, {128, -4}}, rotation = 0), iconTransformation(extent = {{86, -56}, {118, -24}}, rotation = 0)));
 
   parameter Modelica.SIunits.Position rAB[3](start={0.1,0,0}) "Vector from frame_a to frame_b resolved in frame_a";
   parameter Modelica.SIunits.Position rAC[3](start={0.1,0,0}) "Vector from frame_a to frame_c resolved in frame_a";
@@ -14,11 +13,15 @@ model MMM_BodyBox_Frame3  "Rigid body with box shape. Mass and animation propert
   parameter Modelica.SIunits.Position r_shape[3]={0,0,0} "Vector from frame_a to box origin, resolved in frame_a" annotation(HideResult=false);
   final parameter Modelica.SIunits.Position r_CM[3]=r_shape + normalizeWithAssert(lengthDirection)*length/2 "Position vector from origin of frame_a to center of mass, resolved in frame_a" annotation(HideResult=false);
 
-  parameter Modelica.Mechanics.MultiBody.Types.Axis widthDirection={0,1,0} "Vector in width direction of box, resolved in frame_a" annotation (Evaluate=true, HideResult=true);
+  
   parameter Modelica.SIunits.Length length = Modelica.Math.Vectors.length((rAB+rAC)/2 - r_shape) "Length of box" annotation(HideResult=false);
   parameter Modelica.Mechanics.MultiBody.Types.Axis lengthDirection = to_unit1( (rAB+rAC)/2 - r_shape) "Vector in length direction of box, resolved in frame_a" annotation (Evaluate=true, HideResult=true);
-  parameter Modelica.SIunits.Distance width=length/world.defaultWidthFraction "Width of box" annotation(HideResult=false);
-  parameter Modelica.SIunits.Distance height=width "Height of box" annotation(HideResult=false);
+  //parameter Modelica.Mechanics.MultiBody.Types.Axis widthDirection = {0,1,0} "Vector in width direction of box, resolved in frame_a" annotation (Evaluate=true, HideResult=true);
+  parameter Modelica.Mechanics.MultiBody.Types.Axis widthDirection = to_unit1( rAB-rAC )"Vector in width direction of box, resolved in frame_a" annotation (Evaluate=true, HideResult=true);
+  //parameter Modelica.SIunits.Distance width=length/world.defaultWidthFraction "Width of box" annotation(HideResult=false);
+  parameter Modelica.SIunits.Distance width = Modelica.Math.Vectors.length(rAB-rAC);
+  //parameter Modelica.SIunits.Distance height=width "Height of box" annotation(HideResult=false);
+  parameter Modelica.SIunits.Distance height = length/world.defaultWidthFraction "Height of box" annotation(HideResult=false);
   parameter Modelica.SIunits.Distance innerWidth=0 "Width of inner box surface (0 <= innerWidth <= width)" annotation(HideResult=true);
   parameter Modelica.SIunits.Distance innerHeight=innerWidth "Height of inner box surface (0 <= innerHeight <= height)" annotation(HideResult=true);
   parameter Modelica.SIunits.Density density=7700 "Density of cylinder (e.g., steel: 7700 .. 7900, wood : 400 .. 800)" annotation(HideResult=false);
@@ -56,7 +59,7 @@ model MMM_BodyBox_Frame3  "Rigid body with box shape. Mass and animation propert
     mo*(length*length + height*height) - mi*(length*length + innerHeight*innerHeight),
     mo*(length*length + width*width)   - mi*(length*length + innerWidth*innerWidth)} / 12 )) 
     "Inertia tensor of body box with respect to center of mass, parallel to frame_a" annotation( HideResult=true);
-
+protected
   Modelica.Mechanics.MultiBody.Parts.Body body(
     animation=false,
     r_CM=r_CM,
@@ -76,7 +79,7 @@ model MMM_BodyBox_Frame3  "Rigid body with box shape. Mass and animation propert
     z_0_start=z_0_start,
     useQuaternions=useQuaternions,
     sequence_angleStates=sequence_angleStates,
-    enforceStates=false) annotation (Placement(visible = true, transformation(extent = {{0, -80}, {40, -40}}, rotation = 0)), HideResult=true);
+    enforceStates=false) annotation (Placement(visible = true, transformation(extent = {{0, -80}, {40, -40}}, rotation = 0)));
 
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation frameTranslationAB(
     r=rAB,
@@ -89,7 +92,7 @@ model MMM_BodyBox_Frame3  "Rigid body with box shape. Mass and animation propert
     width=width,
     height=height,
     color=color,
-    specularCoefficient=specularCoefficient) annotation (Placement( visible = true, transformation(extent = {{0, 0}, {40, 40}}, rotation = 0)), HideResult=true);
+    specularCoefficient=specularCoefficient) annotation (Placement( visible = true, transformation(extent = {{0, 0}, {40, 40}}, rotation = 0)));
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation frameTranslationAC(
     r=rAC,
     animation=animation,
@@ -101,9 +104,9 @@ model MMM_BodyBox_Frame3  "Rigid body with box shape. Mass and animation propert
     width=width,
     height=height,
     color=color,
-    specularCoefficient=specularCoefficient) annotation (Placement( visible = true, transformation(origin = {21.5, -21.4}, extent = {{-19.5, -23.4}, {19.5, 23.4}}, rotation = 0)), HideResult=true); //HideResult isn't applied to components: frameTranslationAC and all its members are visible..
+    specularCoefficient=specularCoefficient) annotation (Placement( visible = true, transformation(origin = {20, -20}, extent = {{-19, -23}, {19, 23}}, rotation = 0))); //HideResult isn't applied to components: frameTranslationAC and all its members are visible..make protected
 
-protected
+
   outer Modelica.Mechanics.MultiBody.World world;
 
 equation
@@ -113,42 +116,39 @@ equation
 
   assert(innerWidth <= width, "parameter innerWidth is greater than parameter width");
   assert(innerHeight <= height, "parameter innerHeight is greater than parameter height");
-
-  connect(frame_a, body.frame_a)                        annotation (Line( points={{-100,0},{-70,0},{-70,-60}, {0, -60}}, color={95,95,95}, thickness=0.5));
-  connect(frame_a, frameTranslationAB.frame_a) annotation(
-    Line(points = {{-30, 0}, {-5, 0}, {-5, 20}, {0, 20}}, color = {95, 95, 95}, thickness = 0.5));
-  connect(frameTranslationAB.frame_b, frame_b) annotation(
-    Line(points = {{40, 20}, {112, 20}}, color = {95, 95, 95}, thickness = 0.5));
-  connect(frameTranslationAC.frame_b, frame_c) annotation(
-    Line(points = {{41, -21}, {157, -21}, {157, -20}, {116, -20}}, color = {95, 95, 95}, thickness = 0.5));
-  connect(frame_a, frameTranslationAC.frame_a) annotation(
-    Line(points = {{-30, 0}, {-5, 0}, {-5, -21}, {2, -21}}, color = {95, 95, 95}, thickness = 0.5));
+  connect(frame_a, frameTranslationAC.frame_a) annotation( Line(points = {{-100, 0}, {-20, 0}, {-20, -20}, {2, -20}, {2, -20}}));
+  connect(frameTranslationAC.frame_b, frame_c) annotation( Line(points = {{40, -20}, {112, -20}}, color = {95, 95, 95}));
+  connect(frameTranslationAB.frame_a, frame_a) annotation( Line(points = {{0, 20}, {-20, 20}, {-20, 0}, {-100, 0}, {-100, 0}}, color = {95, 95, 95}));
+  connect(frameTranslationAB.frame_b, frame_b) annotation( Line(points = {{42, 20}, {112, 20}, {112, 20}, {112, 20}}));
+  connect(body.frame_a, frame_a) annotation(
+    Line(points = {{0, -60}, {-40, -60}, {-40, 0}, {-100, 0}, {-100, 0}}, color = {95, 95, 95}));
   
   annotation (Documentation(info="<html>
 <p>
-<b>Rigid body</b> with <b>box</b> shape.
-The mass properties of the body (mass, center of mass,
-inertia tensor) are computed
-from the box data. Optionally, the box may be hollow.
+<b>Rigid body</b> with positionable frames a,b,c.
+The mass properties of the body (mass, center of mass, inertia tensor) are computed from the frame locations.
+Optionally, the box may be hollow.
 The (outer) box shape is by default used in the animation.
 The hollow part is not shown in the animation.
-The two connector frames <b>frame_a</b> and <b>frame_b</b>
-are always parallel to each other. Example of component
-animation (note, that
-the animation may be switched off via parameter animation = <b>false</b>):
+The three connector frames <b>frame_a</b>, <b>frame_b</b>, and <b>frame_c</b> are always parallel to each other.
 </p>
 
 <p>
-<IMG src=\"modelica://Modelica/Resources/Images/Mechanics/MultiBody/BodyBox.png\" ALT=\"Parts.BodyBox\">
-</p>
-
-<p>
-A BodyBox component has potential states. For details of these
-states and of the \"Advanced\" menu parameters, see model
-<a href=\"modelica://Modelica.Mechanics.MultiBody.Parts.Body\">MultiBody.Parts.Body</a>.</p>
-</html>"), Icon(coordinateSystem(
-        initialScale = 0.1), graphics={Polygon(lineColor = {0, 95, 191}, fillColor = {0, 95, 191}, fillPattern = FillPattern.Solid, points = {{100, 40}, {100, -30}, {90, -40}, {90, 30}, {100, 40}}), Rectangle(lineColor = {0, 127, 255}, fillColor = {0, 127, 255}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, extent = {{-100, 30}, {90, -40}}), Polygon(lineColor = {0, 95, 191}, fillColor = {0, 95, 191}, fillPattern = FillPattern.Solid, points = {{-100, 30}, {-90, 40}, {100, 40}, {90, 30}, {-100, 30}}), Text(lineColor = {0, 0, 255}, extent = {{-150, 90}, {150, 50}}, textString = "%name"), Text(extent = {{150, -80}, {-150, -50}}, textString = "rAB=%rAB"), Text(extent = {{52, 8}, {88, -17}}, textString = "b"), Text(extent = {{-87, 12}, {-51, -13}}, textString = "a"), Text(origin = {0, -24},extent = {{150, -80}, {-150, -50}}, textString = "rAC=%rAC")}),
+A BodyBox component has potential states. For details of these states and of the \"Advanced\" menu parameters, see model <a href=\"modelica://Modelica.Mechanics.MultiBody.Parts.Body\">MultiBody.Parts.Body</a>.</p>
+</html>"),
+Icon( coordinateSystem(initialScale = 0.1),
+ graphics={
+   Polygon(lineColor = {0, 95, 191}, fillColor = {0, 95, 191}, fillPattern = FillPattern.Solid, points = {{100, 40}, {100, -30}, {90, -40}, {90, 30}, {100, 40}}),
+   Rectangle(lineColor = {0, 127, 255}, fillColor = {0, 127, 255}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, extent = {{-100, 30}, {90, -40}}),
+   Polygon(lineColor = {0, 95, 191}, fillColor = {0, 95, 191}, fillPattern = FillPattern.Solid, points = {{-100, 30}, {-90, 40}, {100, 40}, {90, 30}, {-100, 30}}),
+   Text(lineColor = {0, 0, 255}, extent = {{-150, 90}, {150, 50}}, textString = "%name"),
+   Text(extent = {{150, -80}, {-150, -50}}, textString = "rAB=%rAB"),
+   Text(extent = {{52, 8}, {88, -17}}, textString = "b"),
+   Text(extent = {{-87, 12}, {-51, -13}}, textString = "a"),
+   Text(origin = {0, -24},extent = {{150, -80}, {-150, -50}}, textString = "rAC=%rAC")
+ }),
     experiment(StartTime = 0, StopTime = 1, Tolerance = 1e-6, Interval = 0.002),
+    
   __OpenModelica_commandLineOptions = "--matchingAlgorithm=PFPlusExt --indexReductionMethod=dynamicStateSelection -d=initialization,NLSanalyticJacobian,newInst -d=initialization ",
   __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"));
 
