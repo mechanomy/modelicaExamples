@@ -5,10 +5,10 @@ model MMR_SpringDamper_Limited "Linear 1D rotational spring and damper in parall
   parameter Modelica.SIunits.Angle phiA = 0 "Angular limit A";
   parameter Modelica.SIunits.Angle phiB = 0 "Angular limit B";
     
-  parameter Modelica.SIunits.RotationalSpringConstant  cAB(final min=0, start=1.0e5) "Spring constant applied within AB";
-  parameter Modelica.SIunits.RotationalDampingConstant dAB(final min=0, start=0) "Damping constant applied within AB";
-  parameter Modelica.SIunits.RotationalSpringConstant  cOut(final min=0, start=0) "Spring constant applied outside AB";
-  parameter Modelica.SIunits.RotationalDampingConstant dOut(final min=0, start=0) "Damping constant applied outside AB";
+  parameter Modelica.SIunits.RotationalSpringConstant  cAB  = 1.0e6 "Spring constant applied within AB";
+  parameter Modelica.SIunits.RotationalDampingConstant dAB  = 0 "Damping constant applied within AB";
+  parameter Modelica.SIunits.RotationalSpringConstant  cOut = 0 "Spring constant applied outside AB";
+  parameter Modelica.SIunits.RotationalDampingConstant dOut = 0 "Damping constant applied outside AB";
   parameter Modelica.SIunits.Angle phi_rel0=0 "Unstretched spring angle";
   
 //protected
