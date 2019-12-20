@@ -1,0 +1,350 @@
+The debug flag takes a comma-separated list of flags which are used by the
+compiler for debugging or experimental purposes.
+Flags prefixed with "-" or "no" will be disabled.
+The available flags are (+ are enabled by default, - are disabled):
+
+ + Cache                  Turns off the instantiation cache.
+ - LSanalyticJacobian     Enables analytical jacobian for linear strong
+                            components. Defaults to false
+ + NLSanalyticJacobian    Enables analytical jacobian for non-linear strong
+                            components without user-defined function calls, for
+                            that see forceNLSanalyticJacobian
+ - acceptTooManyFields    Accepts passing records with more fields than expected
+                            to a function. This is not allowed, but is used in
+                            Fluid.Dissipation. See https://trac.modelica.org/Mo-
+                            delica/ticket/1245 for details.
+ - addDerAliases          Adds for every der-call an alias equation e.g. dx =
+                            der(x). It's a work-a-round flag,
+                                            which helps in some cases to
+                            simulate the models e.g.
+                                            Modelica.Fluid.Examples.HeatExchan-
+                            ger.HeatExchangerSimulation.
+                                            Deprecated flag: Use
+                            --preOptModules+=introduceDerAlias instead.
+ - addScaledVars          Adds an alias equation var_nrom = var/nominal where
+                            var is state
+                            Deprecated flag: Use --postOptModules+=addScaledVa-
+                            rs_states instead.
+ - addScaledVarsInput     Adds an alias equation var_nrom = var/nominal where
+                            var is input
+                            Deprecated flag: Use --postOptModules+=addScaledVa-
+                            rs_inputs instead.
+ - aliasConflicts         Dumps alias sets with different start or nominal
+                            values.
+ + backendKeepEnv         When enabled, the environment is kept when entering
+                            the backend, which enables CevalFunction (function
+                            interpretation) to work. This module not essential
+                            for the backend to function in most cases, but can
+                            improve simulation performance by evaluating
+                            functions. The drawback to keeping the environment
+                            graph in memory is that it is huge (~80% of the
+                            total memory in use when returning the frontend
+                            DAE).
+ - backendReduceDAE       Prints all Reduce DAE debug information.
+ - backenddaeinfo         Enables dumping of back-end information about system
+                            (Number of equations before back-end,...).
+ - bltdump                Dumps information from index reduction.
+ - bltmatrixdump          Dumps the blt matrix in html file. IE seems to be very
+                            good in displaying large matrices.
+ + buildExternalLibs      Use the autotools project in the Resources folder of
+                            the library to build missing external libraries.
+ - ceval                  Prints extra information from Ceval.
+ - cgraph                 Prints out connection graph information.
+ - cgraphGraphVizFile     Generates a graphviz file of the connection graph.
+ - cgraphGraphVizShow     Displays the connection graph with the GraphViz lefty
+                            tool.
+ - checkASUB              Prints out a warning if an ASUB is created from a CREF
+                            expression.
+ - checkBackendDae        Do some simple analyses on the datastructure from the
+                            frontend to check if it is consistent.
+ - checkDAECrefType       Enables extra type checking for cref expressions.
+ - checkSimplify          Enables checks for expression simplification and
+                            prints a notification whenever an undesirable
+                            transformation has been performed.
+ - constjac               solves linear systems with constant Jacobian and
+                            variable b-Vector symbolically
+ - convertAnalyticalDump  Dumps the conversion process of analytical to
+                            structural singularities.
+ - countOperations        Count operations.
+ - daedumpgraphv          Dumps the DAE in graphviz format.
+ - debugAlgebraicLoopsJacobian Dumps debug output while creating symbolic
+                            jacobians for non-linear systems.
+ - debugAlias             Dumps some information about the process of
+                            removeSimpleEquations.
+ - debugDAEmode           Dump debug output for the DAEmode.
+ - debugDifferentiation   Dumps debug output for the differentiation process.
+ - debugDifferentiationVerbose Dumps verbose debug output for the
+                            differentiation process.
+ - disableColoring        Disables coloring algorithm while spasity detection.
+ - disableComSubExp       Deactivates module 'comSubExp'
+                            Deprecated flag: Use --preOptModules-=comSubExp
+                            instead.
+ + disableDirectionalDerivatives For FMI 2.0 only dependecy analysis will be
+                            perform.
+ - disableFMIDependency   Disables the dependency analysis and generation for
+                            FMI 2.0.
+ - disableJacsforSCC      Disables calculation of jacobians to detect if a SCC
+                            is linear or non-linear. By disabling all SCC will
+                            handled like non-linear.
+ - disablePartitioning    Deactivates partitioning of entire equation system.
+                            Deprecated flag: Use --preOptModules-
+                            =clockPartitioning instead.
+ - disableRecordConstructorOutput Disables output of record constructors in the
+                            flat code.
+ - disableSimplifyComplexFunction disable simplifyComplexFunction
+                            Deprecated flag: Use --postOptModules-
+                            =simplifyComplexFunction/--initOptModules-
+                            =simplifyComplexFunction instead.
+ - disableSingleFlowEq    Disables the generation of single flow equations.
+ - disableStartCalc       Deactivates the pre-calculation of start values during
+                            compile-time.
+ - disableWindowsPathCheckWarning Disables warnings on Windows if
+                            OPENMODELICAHOME/MinGW is missing.
+ - discreteinfo           Enables dumping of discrete variables. Extends
+                            -d=backenddaeinfo.
+ - dummyselect            Dumps information from dummy state selection
+                            heuristic.
+ - dump                   Dumps the absyn representation of a program.
+ - dumpBackendInline      Dumps debug output while inline function.
+ - dumpBackendInlineVerbose Dumps debug output while inline function.
+ - dumpCSE                Additional output for CSE module.
+ - dumpCSE_verbose        Additional output for CSE module.
+ - dumpConstrepl          Dump the found replacements for constants.
+ - dumpEArepl             Dump the found replacements for evaluate annotations
+                            (evaluate=true) parameters.
+ - dumpEncapsulateConditions Dumps the results of the preOptModule
+                            encapsulateWhenConditions.
+ - dumpEqInUC             Dumps all equations handled by the unit checker.
+ - dumpEqUCStruct         Dumps all the equations handled by the unit checker as
+                            tree-structure.
+ - dumpExcludedSymJacExps This flags dumps all expression that are excluded from
+                            differentiation of a symbolic Jacobian.
+ - dumpFPrepl             Dump the found replacements for final parameters.
+ - dumpFunctions          Add functions to backend dumps.
+ - dumpHomotopy           Dumps the results of the postOptModule
+                            optimizeHomotopyCalls.
+ - dumpInlineSolver       Dumps the inline solver equation system.
+ - dumpJL                 Dumps the absyn representation of a program as a Julia
+                            representation
+ - dumpLoops              Dumps loop equation.
+ - dumpPPrepl             Dump the found replacements for protected parameters.
+ - dumpParamrepl          Dump the found replacements for remove parameters.
+ - dumpRecursiveTearing   Dump between steps of recursiveTearing
+ - dumpSCCGraphML         Dumps graphml files with the strongly connected
+                            components.
+ - dumpSimCode            Dumps the simCode model used for code generation.
+ - dumpSimplifyLoops      Dump between steps of simplifyLoops
+ - dumpSortEqnsAndVars    Dumps debug output for the modules sortEqnsVars.
+ - dumpSparsePattern      Dumps sparse pattern with coloring used for
+                            simulation.
+ - dumpSparsePatternVerbose Dumps in verbose mode sparse pattern with coloring
+                            used for simulation.
+ - dumpSynchronous        Dumps information of the clock partitioning.
+ - dumpTransformedModelica Dumps the back-end DAE to a Modelica-like model after
+                            all symbolic transformations are applied.
+ - dumpUnits              Dumps all the calculated units.
+ - dumpdaelow             Dumps the equation system at the beginning of the back
+                            end.
+ - dumpdgesv              Enables dumping of the information whether DGESV is
+                            used to solve linear systems.
+ - dumpeqninorder         Enables dumping of the equations in the order they are
+                            calculated.
+ - dumpindxdae            Dumps the equation system after index reduction and
+                            optimization.
+ - dumpinitialsystem      Dumps the initial equation system.
+ - dumprepl               Dump the found replacements for simple equation
+                            removal.
+ - dynload                Display debug information about dynamic loading of
+                            compiled functions.
+ + evalConstFuncs         Evaluates functions complete and partially and checks
+                            for constant output.
+                            Deprecated flag: Use --preOptModules+=evalFunc
+                            instead.
+ - evalFuncDump           dumps debug information about the function evaluation
+ - evalOutputOnly         Generates equations to calculate outputs only.
+ - evalParameterDump      Dumps information for evaluating parameters.
+ + evalfunc               Turns on/off symbolic function evaluation.
+ - evaluateAllParameters  Evaluates all parameters if set.
+ + events                 Turns on/off events handling.
+ - execHash               Measures the time it takes to hash all simcode
+                            variables before code generation.
+ - execstat               Prints out execution statistics for the compiler.
+ - execstatGCcollect      When running execstat, also perform an extra full
+                            garbage collection.
+ - experimentalReductions Turns on custom reduction functions (OpenModelica
+                            extension).
+ - failtrace              Sets whether to print a failtrace or not.
+ - fmuExperimental        Include an extra function in the FMU fmi2GetSpecificD-
+                            erivatives.
+ - forceNLSanalyticJacobian Forces calculation analytical jacobian also for
+                            non-linear strong components with user-defined
+                            functions.
+ - frontEndUnitCheck      Checks the consistency of units in equation.
+ - gcProfiling            Prints garbage collection stats to standard output.
+ - gen                    Turns on/off dynamic loading of functions that are
+                            compiled during translation. Only enable this if
+                            external functions are needed to calculate
+                            structural parameters or constants.
+ - gendebugsymbols        Generate code with debugging symbols.
+ - generateCodeCheat      Used to generate code for the bootstrapped compiler.
+ - graphInst              Do graph based instantiation.
+ - graphInstGenGraph      Dumps a graph of the program. Use with -d=graphInst
+ - graphInstRunDep        Run scode dependency analysis. Use with -d=graphInst
+ - graphInstShowGraph     Display a graph of the program interactively. Use with
+                            -d=graphInst
+ - graphml                Dumps .graphml files for the bipartite graph after
+                            Index Reduction and a task graph for the SCCs. Can
+                            be displayed with yEd. 
+ - graphviz               Dumps the absyn representation of a program in
+                            graphviz format.
+ - graphvizDump           Activates additional graphviz dumps (as .dot files).
+                            It can be used in addition to one of the following
+                            flags: {dumpdaelow|dumpinitialsystems|dumpindxdae}.
+ - hardcodedStartValues   Embed the start values of variables and parameters
+                            into the c++ code and do not read it from xml file.
+ - hpcom                  Enables parallel calculation based on task-graphs.
+ - hpcomDump              Dumps additional information on the parallel execution
+                            with hpcom.
+ - hpcomMemoryOpt         Optimize the memory structure regarding the selected
+                            scheduler
+ - ignoreCycles           Ignores cycles between constant/parameter components.
+ - implOde                activates implicit codegen
+ - infoXmlOperations      Enables output of the operations in the _info.xml file
+                            when translating models.
+ - initialization         Shows additional information from the initialization
+                            process.
+ + inlineFunctions        Controls if function inlining should be performed.
+ - inlineSolver           Generates code for inline solver.
+ - instance               Prints extra failtrace from InstanceHierarchy.
+ - interactive            Starts omc as a server listening on the socket
+                            interface.
+ - interactiveCorba       Starts omc as a server listening on the Corba
+                            interface.
+ - interactivedump        Prints out debug information for the interactive
+                            server.
+ - iterationVars          Shows a list of all iteration variables.
+ + listAppendWrongOrder   Print notifications about bad usage of listAppend.
+ - lookup                 Print extra failtrace from lookup.
+ - mergeAlgSections       Disables coloring algorithm while sparsity detection.
+ - metaModelicaRecordAllocWords Instrument the source code to record memory
+                            allocations (requires run-time and generated files
+                            compiled with -DOMC_RECORD_ALLOC_WORDS).
+ - multirate              The solver can switch partitions in the system.
+ - newInst                Enables experimental new instantiation phase.
+ - nfAPI                  Enables experimental new instantiation use in the OMC
+                            API.
+ - nfAPIDynamicSelect     Show DynamicSelect(static, dynamic) in annotations.
+                            Default to false and will select the first (static)
+                            expression
+ - nfAPINoise             Enables error display for the experimental new
+                            instantiation use in the OMC API.
+ + nfEvalConstArgFuncs    Evaluate all functions with constant arguments in the
+                            new frontend.
+ - nfExpandFuncArgs       Expand all function arguments in the new frontend.
+ + nfExpandOperations     Expand all unary/binary operations to scalar
+                            expressions in the new frontend.
+ + nfScalarize            Run scalarization in NF, default true.
+ - oldFrontEndUnitCheck   Checks the consistency of units in equation (for the
+                            old front-end).
+ - onRelaxation           Perform O(n) relaxation.
+                            Deprecated flag: Use --postOptModules+=relaxSystem
+                            instead.
+ - optdaedump             Dumps information from the optimization modules.
+ + parallelCodegen        Enables code generation in parallel (disable this if
+                            compiling a model causes you to run out of RAM).
+ - paramdlowdump          Enables dumping of the parameters in the order they
+                            are calculated.
+ - parmodauto             Experimental: Enable parallelization of independent
+                            systems of equations in the translated model.
+ + partitionInitialization This flag controls if partitioning is applied to the
+                            initialization system.
+ - patternmAllInfo        Adds notifications of all pattern-matching
+                            optimizations that are performed.
+ + patternmDeadCodeElimination Performs dead code elimination in
+                            match-expressions.
+ + patternmMoveLastExp    Optimization that moves the last assignment(s) into
+                            the result of a match-expression. For example:
+                            equation c = fn(b); then c; => then fn(b);
+ - patternmSkipFilterUnusedBindings 
+ - printStructuralParameters Prints the structural parameters identified by the
+                            front-end
+ - pthreads               Experimental: Unused parallelization.
+ - reduceDynOpt           remove eqs which not need for the calculations of cost
+                            and constraints
+                            Deprecated flag: Use --postOptModules+=reduceDynam-
+                            icOptimization instead.
+ - relidx                 Prints out debug information about relations, that are
+                            used as zero crossings.
+ - relocatableFunctions   Generates relocatable code: all functions become
+                            function pointers and can be replaced at run-time.
+ - reportSerializedSize   Reports serialized sizes of various data structures
+                            used in the compiler.
+ - reshufflePost          Reshuffles the systems of equations.
+ - resolveLoopsDump       Debug Output for ResolveLoops Module.
+ - rml                    Converts Modelica-style arrays to lists.
+ - runtimeStaticLinking   Use the static simulation runtime libraries (C++
+                            simulation runtime).
+ + scodeDep               Does scode dependency analysis prior to instantiation.
+                            Defaults to true.
+ - semiLinear             Enables dumping of the optimization information when
+                            optimizing calls to semiLinear.
+ - shortOutput            Enables short output of the simulate() command. Useful
+                            for tools like OMNotebook.
+ - showDaeGeneration      Show the dae variable declarations as they happen.
+ - showEquationSource     Display the element source information in the dumped
+                            DAE for easier debugging.
+ - showExpandableInfo     Show information about expandable connector handling.
+ - showInstCacheInfo      Prints information about instantiation cache hits and
+                            additions. Defaults to false.
+ - showStartOrigin        Enables dumping of the DAE startOrigin attribute of
+                            the variables.
+ - showStatement          Shows the statement that is currently being evaluated
+                            when evaluating a script.
+ - skipInputOutputSyntacticSugar Used when bootstrapping to preserve the input
+                            output parsing of the code output by the list
+                            command.
+ - stateselection         Enables dumping of selected states. Extends
+                            -d=backenddaeinfo.
+ - static                 Enables extra debug output from the static
+                            elaboration.
+ + stripPrefix            Strips the environment prefix from path/crefs.
+                            Defaults to true.
+ - susanDebug             Makes Susan generate code using try/else to better
+                            debug which function broke the expected match
+                            semantics.
+ - symJacConstantSplit    Generates all symbolic Jacobians with splitted
+                            constant parts.
+ - symjacdump             Dumps information about symbolic Jacobians. Can be
+                            used only with postOptModules: generateSymbolicJaco-
+                            bian, generateSymbolicLinearization.
+ - symjacdumpeqn          Dump for debug purpose of symbolic Jacobians.
+                            (deactivated now).
+ - symjacdumpverbose      Dumps information in verbose mode about symbolic
+                            Jacobians. Can be used only with postOptModules:
+                            generateSymbolicJacobian, generateSymbolicLineariza-
+                            tion.
+ - symjacwarnings         Prints warnings regarding symoblic jacbians.
+ - tail                   Prints out a notification if tail recursion
+                            optimization has been applied.
+ - tearingdump            Dumps tearing information.
+ - tearingdumpV           Dumps verbose tearing information.
+ - totaltearingdump       Dumps total tearing information.
+ - totaltearingdumpV      Dumps verbose total tearing information.
+ - tplPerfTimes           Enables output of template performance data for
+                            rendering text to file.
+ - transformsbeforedump   Applies transformations required for code generation
+                            before dumping flat code.
+ - types                  Prints extra failtrace from Types.
+ - uncertainties          Enables dumping of status when calling
+                            modelEquationsUC.
+ - updmod                 Prints information about modification updates.
+ - useMPI                 Add MPI init and finalize to main method (CPPruntime).
+ - vectorize              Activates vectorization in the backend.
+ - visxml                 Outputs a xml-file that contains information for
+                            visualization.
+ + warnMinMax             Makes a warning assert from min/max variable
+                            attributes instead of error.
+ - warnNoNominal          Prints the iteration variables in the initialization
+                            and simulation DAE, which do not have a nominal
+                            value.
+ - writeToBuffer          Enables writing simulation results to buffer.

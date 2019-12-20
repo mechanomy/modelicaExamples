@@ -1,18 +1,53 @@
-//omc --showErrorMessages runModel.mos
+//omc --showErrorMessages ModelicaScript/runModel.mos
+//This script illustrates many of the common ModelicaScript commands through SimplePendulum.mo
+//  The model is located at /ModelicaStandardLibrary/mechanics/multibody/simplePendulum/SimplePendulum.mo
+//  The model will be built and run in /temp/, all script run from the repository root '/'
 //See https://www.openmodelica.org/doc/OpenModelicaUsersGuide/latest/scripting_api.html
 
-//checkSettings(); //shows the build settings
+print("\ncheckSettings:"); //print() is not documented but works, b/c ModelicaScript is a subset of Modelica?
+//checkSettings(); //shows the environment and build settings
 
-loadFile(fileName="../firstPrinciples/BouncingBall/BouncingBall.mo"); //loads model from a file
-cd("../temp/");
+print("\nloadFile:_________________________________________________________________________________");
+loadFile(fileName="ModelicaStandardLibrary/mechanics/multibody/simplePendulum/SimplePendulum.mo"); //loads model from a file
 
-//instantiateModel(BouncingBall); //instantiates the class and returns the flattened code
+print("\ncd:_______________________________________________________________________________________");
+cd("temp/");
 
-//list(BouncingBall);//lists the contents of the given class, or all loaded classes if empty
-//listVariables();//lists all active variables
+print("\ncheckModel:_______________________________________________________________________________");
+//checkModel(SimplePendulum);
 
-checkModel(BouncingBall);
+print("\ncheckModel->getErrorString:");
+getErrorString(); //returns the current error message
 
+print("\nlist:_____________________________________________________________________________________");
+//list(SimplePendulum);//lists the contents of the given class, or all loaded classes if empty
+
+print("\nlistVariables:____________________________________________________________________________");
+//listVariables();//lists all variables active in the scripting environment, that is those created in this file but not those found in the model
+
+print("\ninstantiateModel:_________________________________________________________________________");
+//instantiateModel(SimplePendulum); //instantiates the class and returns the flattened code
+
+/*
+print("\nbuildModel:_______________________________________________________________________________");
+buildModel(SimplePendulum, startTime=0.0, stopTime=1.0, numberOfIntervals=100, tolerance=1e-3);
+//buildModel(SimplePendulum, startTime=0.0, stopTime=1.0, numberOfIntervals=100, tolerance=1e-3, cflags="-d=failtrace,cgraphGraphVizFile"); //
+//buildModel(SimplePendulum, startTime=0.0, stopTime=1.0, numberOfIntervals=100, tolerance=1e-3, options="-d=failtrace,cgraphGraphVizFile"); //
+
+//print("\nbuildModel->countMessages:");
+//countMessages(); //returns the number of (messages, warnings, errors)
+
+print("\nbuildModel->getMessagesString:");
+getMessagesString(); //returns the current error message
+
+print("\nbuildModel->getErrorString:");
+getErrorString(); //returns the current error message
+
+//print("\nclearMessages:");
+//clearMessages(); //clears the error buffer
+*/
+
+print("\nsimulate:_________________________________________________________________________________");
 //simulate options:
 //  see https://www.openmodelica.org/doc/OpenModelicaUsersGuide/latest/simulationflags.html
 //  -abortSlowSimulation : stop simulation if it chatters
@@ -21,9 +56,10 @@ checkModel(BouncingBall);
 //  -outputPath : location for output files
 //  -r=resultFileName : default is ModelName_res.format
 //  -steadyState : abort if simulation has reached steady state. See message "steady state reached at time = ___".
-simulate(BouncingBall, outputFormat="csv", simflags="-abortSlowSimulation -alarm=5 -lv=LOG_SIMULATION,LOG_STATS -steadyState");
+simulate(SimplePendulum, outputFormat="csv", cflags="-v --debug=failtrace,-cgraphGraphVizFile,countOperations", simflags="-abortSlowSimulation -alarm=5 -lv=LOG_SIMULATION,LOG_STATS -steadyState");
+print("\nsimulate->getErrorString:");
+getErrorString(); //returns the current error message
 
 //plotAll();//eventually draws a qt window, too many vars to be useful..
-
 
 
