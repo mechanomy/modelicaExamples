@@ -35,8 +35,7 @@ package BouncingBallPackage "A series of BouncingBall models illustrating Modeli
     System_BouncingBall sysBB10(startHeight = 10); //here we change the startHeight parameter on a particular instance of the System_BouncingBall
     System_BouncingBall sysBB12(startHeight = 12); //here is an independent instance of the bouncing ball
     annotation(
-      experiment(StartTime = 0, StopTime = 1, Tolerance = 1e-6, Interval = 0.002));
-  
+      experiment(StartTime = 0, StopTime = 10, Tolerance = 1e-6, Interval = 0.002));
   end Instance_BouncingBall;
 
 end BouncingBallPackage;
