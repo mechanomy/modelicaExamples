@@ -1,7 +1,7 @@
 package SimplePendulumPackage "A series of BouncingBall models illustrating Modelica's package and inheritance mechanisms"
   import MM = Modelica.Mechanics; //a convenience reference to Mechanics
   import MU = Modelica.SIunits;
-  
+    
   model System_SimplePendulum_Ideal "This simple pendulum model is extensible" 
     parameter MU.Distance pendulumLength = 1 "[m] - length of the massless pendulum arm";
     parameter MU.Damping jointDamping = 0.1 "[N-m/rad-s] - damping coefficient for the revolute damper"; 
@@ -41,7 +41,6 @@ package SimplePendulumPackage "A series of BouncingBall models illustrating Mode
     );  
   end System_SimplePendulum_RealShaft;
 
-
   model Instance_SimplePendulum "Compare the different pendulum models"
     System_SimplePendulum_Ideal     sysId( pendulumLength = 2, pendulumStartAngleDeg = 45 ); //instantiate so we can customize this instance
     System_SimplePendulum_CubeBody  sysCB( pendulumLength = 2, pendulumStartAngleDeg=45 );  //massless shaft with an inertial 1kg cube pendulum
@@ -50,9 +49,6 @@ package SimplePendulumPackage "A series of BouncingBall models illustrating Mode
     annotation(
       experiment(StartTime = 0, StopTime = 10, Tolerance = 1e-6, Interval = 0.002));
   end Instance_SimplePendulum;
-  
-  
-  
   
   annotation(uses(Modelica(version = "3.2.2")));
 end SimplePendulumPackage;
