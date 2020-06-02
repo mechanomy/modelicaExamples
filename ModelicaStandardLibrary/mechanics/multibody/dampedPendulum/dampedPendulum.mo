@@ -1,4 +1,4 @@
-model SimplePendulum
+model dampedPendulum
   inner Modelica.Mechanics.MultiBody.World world annotation(
     Placement(visible = true, transformation(origin = {-30, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.MultiBody.Joints.Revolute revolute1(n = {0, 0, 1}, phi(max = 1), useAxisFlange = true)  annotation(
@@ -21,7 +21,7 @@ equation
     Diagram(coordinateSystem(extent = {{-100, -100}, {200, 100}})),
     uses(Modelica(version = "3.2.2")),
 
-    experiment(startTime = 0, StopTime = 1, Tolerance = 1e-6, Interval = 0.002),
+    experiment( StopTime = 10, Tolerance = 1e-6, Interval = 0.02, StartTime = 0),
     __OpenModelica_commandLineOptions = "--matchingAlgorithm=PFPlusExt --indexReductionMethod=dynamicStateSelection -d=initialization,NLSanalyticJacobian,newInst -d=initialization ",
     __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"),
 
@@ -31,4 +31,4 @@ equation
     );
 
 
-end SimplePendulum;
+end dampedPendulum;
