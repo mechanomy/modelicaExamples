@@ -1,4 +1,4 @@
-OpenModelica Compiler OpenModelica 1.14.0~dev.beta2-3-gfe9cc97
+OpenModelica Compiler OpenModelica 1.15.0~dev-49-gb315f0e
 Copyright © 2019 Open Source Modelica Consortium (OSMC)
 Distributed under OMSC-PL and GPL, see www.openmodelica.org
 
@@ -342,7 +342,6 @@ Usage: omc [Options] (Model.mo | Script.mos) [Libraries | .mo-files]
       --strict               Enables stricter enforcement of Modelica language rules.
       --linearizationDumpLanguage Sets the target language for the produced code of linearization. Only works with '--generateSymbolicLinearization' and 'linearize(modelName)'.
                                Valid options: modelica, matlab, julia, python
-      --convertAnalyticalSingularities Allows the compiler to try to convert analytical to structural singularities.
 
 For more details on a specific topic, use --help=topics or help("topics")
 

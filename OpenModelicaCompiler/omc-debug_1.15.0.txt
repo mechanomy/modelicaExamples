@@ -1,0 +1,366 @@
+OpenModelica Compiler OpenModelica 1.15.0~dev-49-gb315f0e
+Copyright © 2019 Open Source Modelica Consortium (OSMC)
+Distributed under OMSC-PL and GPL, see www.openmodelica.org
+
+Usage: omc [Options] (Model.mo | Script.mos) [Libraries | .mo-files] 
+* Libraries: Fully qualified names of libraries to load before processing Model or Script.
+             The libraries should be separated by spaces: Lib1 Lib2 ... LibN.
+
+* Options:
+  -d, --debug                Sets debug flags. Use --help=debug to see available flags.
+  -h, --help                 Displays the help text. Use --help=topics for more information.
+ --v, --version              Print the version and exit.
+      --target               Sets the target compiler to use.
+                               Valid options: gcc, msvc, msvc10, msvc12, msvc13, msvc15, msvc19, vxworks69, debugrt
+  -g, --grammar              Sets the grammar and semantics to accept.
+                               Valid options: Modelica, MetaModelica, ParModelica, Optimica, PDEModelica
+      --annotationVersion    Sets the annotation version that should be used.
+                               Valid options: 1.x, 2.x, 3.x
+      --std                  Sets the language standard that should be used.
+                               Valid options: 1.x, 2.x, 3.1, 3.2, 3.3, latest
+      --showErrorMessages    Show error messages immediately when they happen.
+      --showAnnotations      Show annotations in the flattened code.
+      --noSimplify           Do not simplify expressions if set.
+      --preOptModules        Sets the pre optimization modules to use in the back end. See --help=optmodules for more info.
+                               Valid options:
+                                * introduceOutputAliases
+                                * clockPartitioning
+                                * collapseArrayExpressions
+                                * comSubExp
+                                * dumpDAE
+                                * dumpDAEXML
+                                * encapsulateWhenConditions
+                                * evalFunc
+                                * evaluateParameters
+                                * expandDerOperator
+                                * findStateOrder
+                                * inlineArrayEqn
+                                * normalInlineFunction
+                                * inputDerivativesForDynOpt
+                                * introduceDerAlias
+                                * removeEqualRHS
+                                * removeProtectedParameters
+                                * removeSimpleEquations
+                                * removeUnusedParameter
+                                * removeUnusedVariables
+                                * removeVerySimpleEquations
+                                * replaceEdgeChange
+                                * residualForm
+                                * resolveLoops
+                                * simplifyAllExpressions
+                                * simplifyIfEquations
+                                * sortEqnsVars
+                                * unitChecking
+                                * wrapFunctionCalls
+
+      --cheapmatchingAlgorithm Sets the cheap matching algorithm to use. A cheap matching algorithm gives a jump start matching by heuristics.
+                               Valid options:
+                                * 0
+                                * 1
+                                * 3
+
+      --matchingAlgorithm    Sets the matching algorithm to use. See --help=optmodules for more info.
+                               Valid options:
+                                * BFSB
+                                * DFSB
+                                * MC21A
+                                * PF
+                                * PFPlus
+                                * HK
+                                * HKDW
+                                * ABMP
+                                * PR
+                                * DFSBExt
+                                * BFSBExt
+                                * MC21AExt
+                                * PFExt
+                                * PFPlusExt
+                                * HKExt
+                                * HKDWExt
+                                * ABMPExt
+                                * PRExt
+                                * BB
+
+      --indexReductionMethod Sets the index reduction method to use. See --help=optmodules for more info.
+                               Valid options:
+                                * none
+                                * uode
+                                * dynamicStateSelection
+                                * dummyDerivatives
+
+      --postOptModules       Sets the post optimization modules to use in the back end. See --help=optmodules for more info.
+                               Valid options:
+                                * addScaledVars_states
+                                * addScaledVars_inputs
+                                * addTimeAsState
+                                * calculateStateSetsJacobians
+                                * calculateStrongComponentJacobians
+                                * collapseArrayExpressions
+                                * constantLinearSystem
+                                * countOperations
+                                * cseBinary
+                                * dumpComponentsGraphStr
+                                * dumpDAE
+                                * dumpDAEXML
+                                * evaluateParameters
+                                * extendDynamicOptimization
+                                * generateSymbolicLinearization
+                                * generateSymbolicSensitivities
+                                * inlineArrayEqn
+                                * inputDerivativesUsed
+                                * lateInlineFunction
+                                * partlintornsystem
+                                * recursiveTearing
+                                * reduceDynamicOptimization
+                                * relaxSystem
+                                * removeConstants
+                                * removeEqualRHS
+                                * removeSimpleEquations
+                                * removeUnusedParameter
+                                * removeUnusedVariables
+                                * reshufflePost
+                                * simplifyAllExpressions
+                                * simplifyComplexFunction
+                                * simplifyConstraints
+                                * simplifyLoops
+                                * simplifyTimeIndepFuncCalls
+                                * simplifysemiLinear
+                                * solveLinearSystem
+                                * solveSimpleEquations
+                                * symSolver
+                                * symbolicJacobian
+                                * tearingSystem
+                                * wrapFunctionCalls
+
+      --simCodeTarget        Sets the target language for the code generation.
+                               Valid options: None, Adevs, C, Cpp, CSharp, ExperimentalEmbeddedC, Java, JavaScript, omsic, sfmi, XML, MidC
+      --orderConnections     Orders connect equations alphabetically if set.
+  -t, --typeinfo             Prints out extra type information if set.
+  -a, --keepArrays           Sets whether to split arrays or not.
+  -m, --modelicaOutput       Enables valid modelica output for flat modelica.
+  -q, --silent               Turns on silent mode.
+  -c, --corbaSessionName     Sets the name of the corba session if -d=interactiveCorba or --interactive=corba is used.
+  -n, --numProcs             Sets the number of processors to use (0=default=auto).
+  -l, --latency              Sets the latency for parallel execution.
+  -b, --bandwidth            Sets the bandwidth for parallel execution.
+  -i, --instClass            Instantiate the class given by the fully qualified path.
+  -v, --vectorizationLimit   Sets the vectorization limit, arrays and matrices larger than this will not be vectorized.
+  -s, --simulationCg         Turns on simulation code generation.
+      --evalAnnotationParams Sets whether to evaluate parameters in annotations or not.
+      --generateLabeledSimCode Turns on labeled SimCode generation for reduction algorithms.
+      --reduceTerms          Turns on reducing terms for reduction algorithms.
+      --reductionMethod      Sets the reduction method to be used.
+                               Valid options: deletion, substitution, linearization
+      --demoMode             Disable Warning/Error Massages.
+      --locale               Override the locale from the environment.
+  -o, --defaultOCLDevice     Sets the default OpenCL device to be used for parallel execution.
+      --maxTraversals        Maximal traversals to find simple equations in the acausal system.
+      --dumpTarget           Redirect the dump to file. If the file ends with .html HTML code is generated.
+      --delayBreakLoop       Enables (very) experimental code to break algebraic loops using the delay() operator. Probably messes with initialization.
+      --tearingMethod        Sets the tearing method to use. Select no tearing or choose tearing method.
+                               Valid options:
+                                * noTearing
+                                * minimalTearing
+                                * omcTearing
+                                * cellier
+
+      --tearingHeuristic     Sets the tearing heuristic to use for Cellier-tearing.
+                               Valid options:
+                                * MC1
+                                * MC2
+                                * MC11
+                                * MC21
+                                * MC12
+                                * MC22
+                                * MC13
+                                * MC23
+                                * MC231
+                                * MC3
+                                * MC4
+
+      --disableLinearTearing Disables the tearing of linear systems. That might improve the performance of large linear systems(N>1000) in combination with a sparse solver (e.g. umfpack) at runtime (usage with: -ls umfpack).
+                              Deprecated flag: Use --maxSizeLinearTearing=0 instead.
+      --scalarizeMinMax      Scalarizes the builtin min/max reduction operators if true.
+      --scalarizeBindings    Always scalarizes bindings if set.
+      --corbaObjectReferenceFilePath Sets the path for corba object reference file if -d=interactiveCorba is used.
+      --hpcomScheduler       Sets the scheduler for task graph scheduling (list | listr | level | levelfix | ext | metis | mcp | taskdep | tds | bls | rand | none). Default: level.
+      --hpcomCode            Sets the code-type produced by hpcom (openmp | pthreads | pthreads_spin | tbb | mpi). Default: openmp.
+      --rewriteRulesFile     Activates user given rewrite rules for Absyn expressions. The rules are read from the given file and are of the form rewrite(fromExp, toExp);
+      --replaceHomotopy      Replaces homotopy(actual, simplified) with the actual expression or the simplified expression. Good for debugging models which use homotopy. The default is to not replace homotopy.
+                               Valid options:
+                                * none
+                                * actual
+                                * simplified
+
+      --generateSymbolicJacobian Generates symbolic Jacobian matrix, where der(x) is differentiated w.r.t. x. This matrix can be used by dassl or ida solver with simulation flag '-jacobian'.
+      --generateSymbolicLinearization Generates symbolic linearization matrices A,B,C,D for linear model:
+                              		:math:`\dot x = Ax + Bu`
+                              		:math:`y = Cx +Du`
+      --intEnumConversion    Allow Integer to enumeration conversion.
+      --profiling            Sets the profiling level to use. Profiled equations and functions record execution time and count for each time step taken by the integrator.
+                               Valid options:
+                                * none
+                                * blocks
+                                * blocks+html
+                                * all
+                                * all_perf
+                                * all_stat
+
+      --reshuffle            sets tolerance of reshuffling algorithm: 1: conservative, 2: more tolerant, 3 resolve all
+      --gDynOpt              Generate dynamic optimization problem based on annotation approach.
+      --maxSizeSolveLinearSystem Max size for solveLinearSystem.
+      --cppFlags             Sets extra flags for compilation with the C++ compiler (e.g. +cppFlags=-O3,-Wall)
+      --removeSimpleEquations Specifies method that removes simple equations.
+                               Valid options:
+                                * none
+                                * default
+                                * causal
+                                * fastAcausal
+                                * allAcausal
+                                * new
+
+      --dynamicTearing       Activates dynamic tearing (TearingSet can be changed automatically during runtime, strict set vs. casual set.)
+                               Valid options:
+                                * false
+                                * true
+                                * linear
+                                * nonlinear
+
+      --symSolver            Activates symbolic implicit solver (original system is not changed).
+                               Valid options: none, impEuler, expEuler
+      --loop2con             Specifies method that transform loops in constraints. hint: using initial guess from file!
+                               Valid options:
+                                * none
+                                * lin
+                                * noLin
+                                * all
+
+      --forceTearing         Use tearing set even if it is not smaller than the original component.
+      --simplifyLoops        Simplify algebraic loops.
+                               Valid options:
+                                * 0
+                                * 1
+                                * 2
+
+      --recursiveTearing     Inline and repeat tearing.
+                               Valid options:
+                                * 0
+                                * 1
+                                * 2
+
+      --flowThreshold        Sets the minium threshold for stream flow rates
+      --matrixFormat         Sets the matrix format type in cpp runtime which should be used (dense | sparse ). Default: dense.
+      --partlintorn          Sets the limit for partitionin of linear torn systems.
+      --initOptModules       Sets the initialization optimization modules to use in the back end. See --help=optmodules for more info.
+                               Valid options:
+                                * calculateStrongComponentJacobians
+                                * collapseArrayExpressions
+                                * constantLinearSystem
+                                * extendDynamicOptimization
+                                * generateHomotopyComponents
+                                * inlineHomotopy
+                                * inputDerivativesUsed
+                                * recursiveTearing
+                                * reduceDynamicOptimization
+                                * replaceHomotopyWithSimplified
+                                * simplifyAllExpressions
+                                * simplifyComplexFunction
+                                * simplifyConstraints
+                                * simplifyLoops
+                                * solveSimpleEquations
+                                * tearingSystem
+                                * wrapFunctionCalls
+
+      --maxMixedDeterminedIndex Sets the maximum mixed-determined index that is handled by the initialization.
+      --useLocalDirection    Keeps the input/output prefix for all variables in the flat model, not only top-level ones.
+      --defaultOptModulesOrdering If this is activated, then the specified pre-/post-/init-optimization modules will be rearranged to the recommended ordering.
+      --preOptModules+       Enables additional pre-optimization modules, e.g. --preOptModules+=module1,module2 would additionally enable module1 and module2. See --help=optmodules for more info.
+      --preOptModules-       Disables a list of pre-optimization modules, e.g. --preOptModules-=module1,module2 would disable module1 and module2. See --help=optmodules for more info.
+      --postOptModules+      Enables additional post-optimization modules, e.g. --postOptModules+=module1,module2 would additionally enable module1 and module2. See --help=optmodules for more info.
+      --postOptModules-      Disables a list of post-optimization modules, e.g. --postOptModules-=module1,module2 would disable module1 and module2. See --help=optmodules for more info.
+      --initOptModules+      Enables additional init-optimization modules, e.g. --initOptModules+=module1,module2 would additionally enable module1 and module2. See --help=optmodules for more info.
+      --initOptModules-      Disables a list of init-optimization modules, e.g. --initOptModules-=module1,module2 would disable module1 and module2. See --help=optmodules for more info.
+      --instCacheSize        Sets the size of the internal hash table used for instantiation caching.
+      --maxSizeLinearTearing Sets the maximum system size for tearing of linear systems (default 200).
+      --maxSizeNonlinearTearing Sets the maximum system size for tearing of nonlinear systems (default 10000).
+      --noTearingForComponent Deactivates tearing for the specified components.
+                              Use '-d=tearingdump' to find out the relevant indexes.
+      --daeMode              Generates code to simulate models in DAE mode. The whole system is passed directly to the DAE solver SUNDIALS/IDA and no algebraic solver is involved in the simulation process.
+      --inlineMethod         Sets the inline method to use.
+                              replace : This method inlines by replacing in place all expressions. Might lead to very long expression.
+                              append  : This method inlines by adding additional variables to the whole system. Might lead to much bigger system.
+                               Valid options: replace, append
+      --setTearingVars       Sets the tearing variables by its strong component indexes. Use '-d=tearingdump' to find out the relevant indexes.
+                              Use following format: '--setTearingVars=(sci,n,t1,...,tn)*', with sci = strong component index, n = number of tearing variables, t1,...tn = tearing variables.
+                              E.g.: '--setTearingVars=4,2,3,5' would select variables 3 and 5 in strong component 4.
+      --setResidualEqns      Sets the residual equations by its strong component indexes. Use '-d=tearingdump' to find out the relevant indexes for the collective equations.
+                              Use following format: '--setResidualEqns=(sci,n,r1,...,rn)*', with sci = strong component index, n = number of residual equations, r1,...rn = residual equations.
+                              E.g.: '--setResidualEqns=4,2,3,5' would select equations 3 and 5 in strong component 4.
+                              Only works in combination with 'setTearingVars'.
+      --ignoreCommandLineOptionsAnnotation Ignores the command line options specified as annotation in the class.
+      --calculateSensitivities Generates sensitivities variables and matrixes.
+  -r, --alarm                Sets the number seconds until omc timeouts and exits. Used by the testing framework to terminate infinite running processes.
+      --totalTearing         Activates total tearing (determination of all possible tearing sets) for the specified components.
+                              Use '-d=tearingdump' to find out the relevant indexes.
+      --ignoreSimulationFlagsAnnotation Ignores the simulation flags specified as annotation in the class.
+      --dynamicTearingForInitialization Enable Dynamic Tearing also for the initialization system.
+      --preferTVarsWithStartValue Prefer tearing variables with start value for initialization.
+      --equationsPerFile     Generate code for at most this many equations per C-file (partially implemented in the compiler).
+      --evaluateFinalParameters Evaluates all the final parameters in addition to parameters with annotation(Evaluate=true).
+      --evaluateProtectedParameters Evaluates all the protected parameters in addition to parameters with annotation(Evaluate=true).
+      --replaceEvaluatedParameters Replaces all the evaluated parameters in the DAE.
+      --condenseArrays       Sets whether array expressions containing function calls are condensed or not.
+      --wfcAdvanced          wrapFunctionCalls ignores more then default cases, e.g. exp, sin, cos, log, (experimental flag)
+      --tearingStrictness    Sets the strictness of the tearing method regarding the solvability restrictions.
+                               Valid options:
+                                * casual
+                                * strict
+                                * veryStrict
+
+      --interactive          Sets the interactive mode for omc.
+                               Valid options:
+                                * none
+                                * corba
+                                * tcp
+                                * zmq
+
+  -z, --zeroMQFileSuffix     Sets the file suffix for zeroMQ port file if --interactive=zmq is used.
+      --homotopyApproach     Sets the homotopy approach.
+                               Valid options:
+                                * equidistantLocal
+                                * adaptiveLocal
+                                * equidistantGlobal
+                                * adaptiveGlobal
+
+      --ignoreReplaceable    Sets whether to ignore replaceability or not when redeclaring.
+      --postOptModulesDAE    Sets the optimization modules for the DAEmode in the back end. See --help=optmodules for more info.
+      --evalLoopLimit        The loop iteration limit used when evaluating constant function calls.
+      --evalRecursionLimit   The recursion limit used when evaluating constant function calls.
+      --singleInstanceAglSolver Sets to instantiate only  one algebraic loop solver all algebraic loops
+      --showStructuralAnnotations Show annotations affecting the solution process in the flattened code.
+      --initialStateSelection Activates the state selection inside initialization to avoid singularities.
+      --strict               Enables stricter enforcement of Modelica language rules.
+      --linearizationDumpLanguage Sets the target language for the produced code of linearization. Only works with '--generateSymbolicLinearization' and 'linearize(modelName)'.
+                               Valid options: modelica, matlab, julia, python
+
+For more details on a specific topic, use --help=topics or help("topics")
+
+* Examples:
+  omc Model.mo             will produce flattened Model on standard output.
+  omc -s Model.mo          will produce simulation code for the model:
+                            * Model.c           The model C code.
+                            * Model_functions.c The model functions C code.
+                            * Model.makefile    The makefile to compile the model.
+                            * Model_init.xml    The initial values.
+  omc Script.mos           will run the commands from Script.mos.
+  omc Model.mo Modelica    will first load the Modelica library and then produce 
+                            flattened Model on standard output.
+  omc Model1.mo Model2.mo  will load both Model1.mo and Model2.mo, and produce 
+                            flattened Model1 on standard output.
+  *.mo (Modelica files) 
+  *.mos (Modelica Script files)
+
+For available simulation flags, use --help=simulation.
+
+Documentation is available in the built-in package OpenModelica.Scripting or
+online <https://build.openmodelica.org/Documentation/OpenModelica.Scripting.html>.
