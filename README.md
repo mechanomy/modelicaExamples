@@ -3,7 +3,7 @@ A repository of Modelica models, pull requests welcome.
 
 # Structure
 ## Classic Examples
-* [Canonical](Canonical) canonical examples from the earliest days of Modelica.
+* [Canonical](Canonical) examples from the earliest days of Modelica.
 
 ## Modelica Language
 * [ModelicaScript](ModelicaScript) basic examples of how to run OpenModelica functions from a Modelica Script (*.mos).
