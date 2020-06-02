@@ -11,7 +11,7 @@ A repository of Modelica models, pull requests welcome.
 
 ## Open Modelica
 * [ModelicaStandardLibrary](ModelicaStandardLibrary) contains examples of how to use models in the Modelica Standard Library.  Not exhaustive but hopefully useful.
-* [OpenModelicaCompiler](OpenModelica Compiler) examples using the OpenModelica compiler executable.
+* [OpenModelicaCompiler](OpenModelicaCompiler) examples using the OpenModelica compiler executable.
 
 # See also:
 * [Modelica By Example]( http://github.com/mtiller/ModelicaBook )
