@@ -1,0 +1,29 @@
+//>> omc --showErrorMessages calcLVSensitivity.mos > temp/LotkaVolterra.term
+
+
+print("\ncheckSettings:");
+checkSettings();
+
+print("\nloadFile:_________________________________________________________________________________");
+loadFile(fileName="/home/ben/modelicaExamples/ParameterSensitivity/LotkaVolterra.mo");
+
+print("\ncd:_______________________________________________________________________________________");
+cd("../temp/");
+
+print("\ncheckModel:_______________________________________________________________________________");
+checkModel(LotkaVolterra);
+
+print("\ncheckModel->getErrorString:");
+getErrorString();
+
+print("\ncalcSensitivity");
+setCommandLineOptions("--calculateSensitivities");
+print("\ncalcSensitivity->getErrorString:");
+getErrorString();
+
+print("\nsimulate:_________________________________________________________________________________");
+simulate(LotkaVolterra, method="ida", simflags="-idaSensitivity");
+
+print("\nsimulate->getErrorString:");
+getErrorString(); //returns the current error message
+

@@ -28,11 +28,20 @@ print("\nlistVariables:_________________________________________________________
 print("\ninstantiateModel:_________________________________________________________________________");
 //instantiateModel(dampedPendulum); //instantiates the class and returns the flattened code
 
-/*
+print("\nbuildLabel:_______________________________________________________________________________");
+//buildLabel(dampedPendulum, startTime=0.0, stopTime=1.0, numberOfIntervals=100, tolerance=1e-3, cflags="-v -d=failtrace,cgraphGraphVizFile");
+buildLabel(dampedPendulum, startTime=0.0, stopTime=1.0, numberOfIntervals=100, tolerance=1e-3, cflags="-fPIC -d=failtrace,cgraphGraphVizFile");
+print("\nbuildLabel->getMessagesString:");
+getMessagesString();
+print("\nbuildLabel->getErrorString:");
+getErrorString();
+
+//*
 print("\nbuildModel:_______________________________________________________________________________");
-buildModel(dampedPendulum, startTime=0.0, stopTime=1.0, numberOfIntervals=100, tolerance=1e-3);
-//buildModel(dampedPendulum, startTime=0.0, stopTime=1.0, numberOfIntervals=100, tolerance=1e-3, cflags="-d=failtrace,cgraphGraphVizFile"); //
-//buildModel(dampedPendulum, startTime=0.0, stopTime=1.0, numberOfIntervals=100, tolerance=1e-3, options="-d=failtrace,cgraphGraphVizFile"); //
+//buildModel(dampedPendulum, startTime=0.0, stopTime=1.0, numberOfIntervals=100, tolerance=1e-3);
+//buildModel(dampedPendulum, startTime=0.0, stopTime=1.0, numberOfIntervals=100, tolerance=1e-3, cflags="-d=failtrace,cgraphGraphVizFile");
+//cflags = "-d=failtrace,cgraphGraphVizFile";
+//buildModel(dampedPendulum, startTime=0.0, stopTime=1.0, numberOfIntervals=100, tolerance=1e-3, cflags=cflags);
 
 //print("\nbuildModel->countMessages:");
 //countMessages(); //returns the number of (messages, warnings, errors)
@@ -45,7 +54,17 @@ getErrorString(); //returns the current error message
 
 //print("\nclearMessages:");
 //clearMessages(); //clears the error buffer
-*/
+//*/
+
+
+
+//setCFlags("-fPIC -d=backenddaeinfo,cgraph,cgraphGraphVizFile,cgraphGraphVizShow,checkSimplify,countOperations,daedumpgraphv,debugDifferentiation,debugDifferentiationVerbose,discreteinfo,dynload,execstat,gcProfiling,graphml,graphviz,graphvizDot,initialization");
+//print("\nsetCFlags->getMessagesString:");
+//getMessagesString();
+//print("\nsetCFlags->getErrorString:");
+//getErrorString();
+
+
 
 print("\nsimulate:_________________________________________________________________________________");
 //simulate options:
@@ -56,7 +75,9 @@ print("\nsimulate:______________________________________________________________
 //  -outputPath : location for output files
 //  -r=resultFileName : default is ModelName_res.format
 //  -steadyState : abort if simulation has reached steady state. See message "steady state reached at time = ___".
-simulate(dampedPendulum, outputFormat="csv", cflags="-v --debug=failtrace,-cgraphGraphVizFile,countOperations", simflags="-abortSlowSimulation -alarm=5 -lv=LOG_SIMULATION,LOG_STATS -steadyState");
+//simulate(dampedPendulum, outputFormat="csv", cflags="-v --debug=failtrace,-cgraphGraphVizFile,countOperations", simflags="-abortSlowSimulation -alarm=5 -lv=LOG_SIMULATION,LOG_STATS -steadyState");
+simulate(dampedPendulum, outputFormat="csv", cflags="-d=backenddaeinfo,dynload,cgraph,cgraphGraphVizFile,cgraphGraphVizShow,checkSimplify,countOperations,daedumpgraphv,debugDifferentiation,debugDifferentiationVerbose,discreteinfo,dynload,execstat,gcProfiling,graphml,graphviz,graphvizDot,initialization", simflags="-abortSlowSimulation -alarm=5 -steadyState");
+
 print("\nsimulate->getErrorString:");
 getErrorString(); //returns the current error message
 
