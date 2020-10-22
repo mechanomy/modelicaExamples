@@ -1,0 +1,10 @@
+//>> omc --showErrorMessages ModelicaScript/runModel.mos
+
+loadFile(fileName="/home/ben/clones/ModelicaStandardLibrary/Modelica");
+loadFile(fileName="/home/ben/clones/ModelicaServices");
+
+installPackage(ModelicaServices, "4.0.0+maint.om", exactMatch=true);
+installPackage(ModelicaServices, "4.0.0", exactMatch=false);
+installPackage(ModelicaServices, "4.0.0", exactMatch=false);
+
+
