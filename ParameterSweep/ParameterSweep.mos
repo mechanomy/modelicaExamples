@@ -1,0 +1,47 @@
+//>> omc ParameterSweep.mos, BouncingBall_res{i}.mat will be in ../temp/
+//Based on https://www.openmodelica.org/doc/OpenModelicaUsersGuide/latest/scripting_api.html#simulation-parameter-sweep , see also the Simulation Flags https://www.openmodelica.org/doc/OpenModelicaUsersGuide/latest/simulationflags.html
+//Note, the -override command can only change model _parameters_, those top-level model variables having the parameter label.
+//
+//Override failure messages look like:
+//stdout            | warning | It is not possible to override the following quantity: cor
+//|                 | |       | It seems to be structural, final, protected or evaluated or has a non-constant binding.
+//LOG_SUCCESS       | info    | The initialization finished successfully without homotopy method.
+//LOG_SUCCESS       | info    | The simulation finished successfully.
+//
+//You can use OMEdit->File->Open Result File(s), python, Matlab, etc to view the .mat result files.
+
+
+loadFile("./BouncingBall.mo");
+getErrorString();
+
+cd("../temp/");
+
+// build the model once
+buildModel(BouncingBall);
+getErrorString();
+
+//for i in 1:3 loop
+  // We update the parameter cor start value from 0.7 to "0.7 + i".
+  //value := 0.7 + i/10;
+
+  // call the generated simulation code to produce a result file BouncingBall%i%_res.mat
+//  system("./BouncingBall -override=cor="+String(value)+" -r=BouncingBall" + String(i) + "_res.mat");
+//  getErrorString();
+
+//end for;
+
+
+for h in 10:10:30 loop
+  for cor in 0.1:0.1:1 loop
+    system("./BouncingBall -override=startingHeight="+String(h)+",cor="+String(cor)+" -r=BouncingBall_h" + String(h) + "_cor" + String(cor) + "_res.mat");
+  end for;
+end for;
+
+
+// BSD 3-Clause License
+// Copyright (c) [2020], [Mechanomy, LLC] All rights reserved.
+// Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+// 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+// 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+// 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from   this software without specific prior written permission.
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
